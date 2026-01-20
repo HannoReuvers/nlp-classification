@@ -4,4 +4,18 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.14"
-dependencies = []
+dependencies = [
+    "pre-commit>=4.5.1",
+]
+
+[tool.uv.workspace]
+members = ["api"]
+
+[dependency-groups]
+dev = [
+    "nltk>=3.9.2",
+    "pytest>=9.0.2",
+]
+prod = [
+    "nltk>=3.9.2",
+]
