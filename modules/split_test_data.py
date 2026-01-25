@@ -17,35 +17,34 @@ def split_data(
 ) -> None:
     """
     Split test data into train and validation sets.
-    
+
     Args:
         input_path: Path to the input data directory
         output_path: Path to the output data directory
         validation_size: Sample size of the resulting validation dataset
     """
-    
+
     # Create output directories (if needed)
-    #Path(output_path+"/train/pos").mkdir(parents=True, exist_ok=True)
-    #Path(output_path+"/train/neg").mkdir(parents=True, exist_ok=True)
-    Path(output_path+"/validation/pos").mkdir(parents=True, exist_ok=True)
-    Path(output_path+"/validation/neg").mkdir(parents=True, exist_ok=True)
-    Path(output_path+"/test/pos").mkdir(parents=True, exist_ok=True)
-    Path(output_path+"/test/neg").mkdir(parents=True, exist_ok=True)
+    # Path(output_path+"/train/pos").mkdir(parents=True, exist_ok=True)
+    # Path(output_path+"/train/neg").mkdir(parents=True, exist_ok=True)
+    Path(output_path + "/validation/pos").mkdir(parents=True, exist_ok=True)
+    Path(output_path + "/validation/neg").mkdir(parents=True, exist_ok=True)
+    Path(output_path + "/test/pos").mkdir(parents=True, exist_ok=True)
+    Path(output_path + "/test/neg").mkdir(parents=True, exist_ok=True)
 
     # Train data remains as-is
-    shutil.copytree(input_path+"/aclImdb/train/pos", output_path+"/train/pos")
-    shutil.copytree(input_path+"/aclImdb/train/neg", output_path+"/train/neg")
-    
+    shutil.copytree(input_path + "/aclImdb/train/pos", output_path + "/train/pos")
+    shutil.copytree(input_path + "/aclImdb/train/neg", output_path + "/train/neg")
+
     # Split old test data into validation and test sets
     review_type_list = ["pos", "neg"]
     for review_type in review_type_list:
-
         # Source (old test data)
-        source_folder = input_path+"/aclImdb/test/"+review_type
+        source_folder = input_path + "/aclImdb/test/" + review_type
 
-        # Destination 
-        dest_validation_folder = output_path+"/validation/"+review_type
-        dest_test_folder = output_path+"/test/"+review_type
+        # Destination
+        dest_validation_folder = output_path + "/validation/" + review_type
+        dest_test_folder = output_path + "/test/" + review_type
 
         # Fetch all reviews from old test data
         all_reviews = os.listdir(source_folder)
@@ -55,23 +54,26 @@ def split_data(
         random.seed(42)
         validation_reviews = random.sample(all_reviews, validation_size)
 
-
         for review in all_reviews:
             if review in validation_reviews:
-                shutil.copyfile(source_folder+"/"+review, dest_validation_folder+"/"+review)
+                shutil.copyfile(
+                    source_folder + "/" + review, dest_validation_folder + "/" + review
+                )
             else:
-                shutil.copyfile(source_folder+"/"+review, dest_test_folder+"/"+review)
+                shutil.copyfile(
+                    source_folder + "/" + review, dest_test_folder + "/" + review
+                )
 
 
 def main() -> None:
     """
     Main function to execute the data splitting script.
     """
-    
+
     # Define paths
     input_dir = "./data/0_raw"
     output_dir = "./data/1_input"
-    
+
     # Execute splitting
     try:
         split_data(input_dir, output_dir)

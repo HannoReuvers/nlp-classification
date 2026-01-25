@@ -6,5 +6,3 @@ data/0_raw/*
 !data/0_raw/.gitkeep
 data/1_input/*
 !data/1_input/.gitkeep
-
-
