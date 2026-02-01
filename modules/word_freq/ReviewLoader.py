@@ -6,6 +6,7 @@ import re
 class ReviewLoader:
     def __init__(self):
         self.review_content = None
+        self.review_wordlist = None
 
     def load_review(self, review_path: str) -> None:
         """
@@ -30,7 +31,7 @@ class ReviewLoader:
         Args:
             stopwords (list): List of stop words.
         """
-        review_without_punctuation = re.sub(r'[".,!?;-]+', "", self.original_review)
+        review_without_punctuation = re.sub(r'[".,!?;-]+', "", self.review_content)
         review_tokenized = nltk.word_tokenize(review_without_punctuation)
         review_lower_case = [ch.lower() for ch in review_tokenized if ch.isalpha()]
         self.review_wordlist = [
@@ -45,7 +46,7 @@ class ReviewLoader:
             stopwords (list): List of stop words.
         """
         if self.review_wordlist is None:
-            self.review_to_wordlist(stopwords)
+            self.review_to_word_list(stopwords)
 
         self.word_counter = Counter()
         for word in self.review_wordlist:

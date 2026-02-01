@@ -19,7 +19,7 @@ def single_sentence_review(tmp_path):
 
 
 @pytest.fixture
-def multiple_reviews(tmp_path):
+def multiple_review_paths(tmp_path):
     """
     Create multiple temporary files with movie reviews.
 
@@ -31,9 +31,9 @@ def multiple_reviews(tmp_path):
     """
     reviews = [
         ("review_1.txt", "The movie was fantastic!"),
-        ("review_2.txt", "I absolutely loved the film."),
+        ("review_2.txt", "I absolutely loved the movie."),
         ("review_3.txt", "The movie was terrible."),
-        ("review_4.txt", "I did not enjoy the film at all."),
+        ("review_4.txt", "I did not enjoy the movie at all."),
     ]
 
     file_paths = []
