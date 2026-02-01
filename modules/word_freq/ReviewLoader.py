@@ -23,46 +23,45 @@ class ReviewLoader:
         except IOError:
             print(f"Unable to read file: {review_path}")
 
-    def review_to_word_list(self, list_stopwords: list) -> None:
+    def review_to_word_list(self, stopwords: list) -> None:
         """
         Creates a list of words from the original review text, removing punctuation and stop words.
 
         Args:
-            list_stopwords (list): List of stop words.
+            stopwords (list): List of stop words.
         """
         review_without_punctuation = re.sub(r'[".,!?;-]+', "", self.original_review)
         review_tokenized = nltk.word_tokenize(review_without_punctuation)
         review_lower_case = [ch.lower() for ch in review_tokenized if ch.isalpha()]
         self.review_wordlist = [
-            word for word in review_lower_case if word not in list_stopwords
+            word for word in review_lower_case if word not in stopwords
         ]
 
-    def create_word_counter(self, list_stopwords) -> None:
+    def create_word_counter(self, stopwords: list) -> None:
         """
         Creates a word frequency counter from the review word list.
 
         Args:
-            list_stopwords (list): List of stop words.
+            stopwords (list): List of stop words.
         """
         if self.review_wordlist is None:
-            self.review_to_wordlist(list_stopwords)
+            self.review_to_wordlist(stopwords)
 
         self.word_counter = Counter()
         for word in self.review_wordlist:
             self.word_counter[word] = self.word_counter.get(word, 0) + 1
 
-    def review_to_integer_mapping(self, list_stopwords, vocabulary) -> list:
+    def review_to_integer_mapping(self, stopwords: list, vocabulary) -> list:
         """
         Returns a list of integers representing the words in the review based on a given vocabulary mapping.
 
         Args:
-            list_stopwords (list): List of stop words.
+            stopwords (list): List of stop words.
             vocabulary (dict):
-        :param vocabulary: Description
         """
 
         if self.review_wordlist is None:
-            self.review_to_wordlist(list_stopwords)
+            self.review_to_wordlist(stopwords)
 
         int_list = []
         for word in self.review_wordlist:
@@ -74,3 +73,6 @@ class ReviewLoader:
 
     def __str__(self):
         return f"REVIEW:\n{self.review_content}"
+
+    def get_word_counter(self):
+        return self.word_counter

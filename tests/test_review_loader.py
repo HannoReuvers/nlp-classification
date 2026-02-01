@@ -2,10 +2,10 @@ from modules.word_freq.ReviewLoader import ReviewLoader
 
 
 class TestReviewLoader:
-    """Test suite for ReviewLoader class."""
+    """Test suite for class ReviewLoader"""
 
     def test_review_loader_initialization(self):
-        """Test that ReviewLoader initializes with review_content as None."""
+        """Test that ReviewLoader initializes correctly."""
         loader = ReviewLoader()
         assert loader.review_content is None
 
