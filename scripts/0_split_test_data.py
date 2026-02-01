@@ -50,7 +50,7 @@ def split_data(
         all_reviews = os.listdir(source_folder)
         print(f"Number of {review_type} reviews: {len(all_reviews)}")
 
-        # Deter
+        # Reviews for validation set
         random.seed(42)
         validation_reviews = random.sample(all_reviews, validation_size)
 
