@@ -4,6 +4,7 @@ import os
 import nltk
 
 from modules.word_freq.VocabularyTransformer import VocabularyTransformer
+from utils.nlp_utils import files_in_directory
 
 
 def main(vocabulary_filename: str = "vocabulary.csv") -> None:
@@ -11,16 +12,9 @@ def main(vocabulary_filename: str = "vocabulary.csv") -> None:
     OUTPUT_DIR = "data/vocabularies"
 
     # Collect all training review file paths
-    def files_in_directory(directory: str) -> list:
-        return [
-            os.path.join(directory, file)
-            for file in os.listdir(directory)
-            if os.path.isfile(os.path.join(directory, file))
-        ]
-
     training_reviews_path = files_in_directory(
-        "data/1_input/train/pos"
-    ) + files_in_directory("data/1_input/train/neg")
+        "data/1_data_split/train/pos"
+    ) + files_in_directory("data/1_data_split/train/neg")
 
     # Create vocabulary
     stopwords = nltk.corpus.stopwords.words("english")

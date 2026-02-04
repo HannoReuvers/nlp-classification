@@ -58,15 +58,15 @@ class ReviewLoader:
 
         Args:
             stopwords (list): List of stop words.
-            vocabulary (dict):
+            vocabulary (dict): A dictionary mapping words to integer indices.
         """
 
         if self.review_wordlist is None:
-            self.review_to_wordlist(stopwords)
+            self.review_to_word_list(stopwords)
 
         int_list = []
         for word in self.review_wordlist:
-            # Find integer representation of word and append to sequence
+            # Find integer representation of word and append to sequence (note: 0 means out-of-vocabulary)
             word_int = vocabulary.get(word, 0)
             int_list.append(word_int)
 

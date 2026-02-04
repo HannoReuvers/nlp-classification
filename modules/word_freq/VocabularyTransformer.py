@@ -1,5 +1,7 @@
 from collections import Counter
+import os
 
+import pandas as pd
 from tqdm import tqdm
 from modules.word_freq.ReviewLoader import ReviewLoader
 
@@ -56,3 +58,42 @@ class VocabularyTransformer:
         }
 
         return vocabulary
+
+    def transform(self, path_list: list, vocabulary: dict, label: int) -> pd.DataFrame:
+        """
+        Transform all reviews in the list of path into an integer representation. This integer
+        representation is based on the provided vocabulary.
+
+        Args:
+            path_list (list): List of file paths containing reviews.
+            vocabulary (dict): Dictionary mapping words to integer indices.
+            label (int): Label to assign to all transformed reviews.
+        """
+
+        file_name_list = []
+        word_sequence_list = []
+
+        for review_path in tqdm(path_list):
+            # File name
+            filename = os.path.basename(review_path)
+            file_name_list.append(filename)
+
+            # Transform review to integer list
+            loader = ReviewLoader()
+            loader.load_review(review_path)
+            int_list = loader.review_to_integer_mapping([], vocabulary)
+            int_string = "-".join(map(str, int_list))
+            word_sequence_list.append(int_string)
+
+        label_list = [label] * len(file_name_list)
+
+        # Create output pandas DataFrame
+        output_df = pd.DataFrame(
+            {
+                "file_name": file_name_list,
+                "label": label_list,
+                "word_sequence": word_sequence_list,
+            }
+        )
+
+        return output_df
