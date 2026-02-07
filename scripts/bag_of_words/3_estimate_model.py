@@ -1,9 +1,17 @@
+import argparse
 import numpy as np
+import mlflow
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
 
 
-def main(vocabulary_size=1000) -> None:
+def main(vocabulary_size=1000, mlflow_experiment=None, run_name="default") -> None:
+    # Set up MLflow experiment
+    if mlflow_experiment:
+        print(f"\nSetting up MLflow experiment: {mlflow_experiment}...")
+        mlflow.set_experiment(mlflow_experiment)
+        mlflow.start_run(run_name=run_name)
+
     # Read the training data
     data = pd.read_csv("data/2_model_input/train/train_reviews_tokenized.csv")
 
@@ -38,4 +46,22 @@ def main(vocabulary_size=1000) -> None:
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(
+        description="Model training script for BoW classification"
+    )
+    parser.add_argument(
+        "--vocabulary-size", type=int, default=1000, help="Vocabulary size"
+    )
+    parser.add_argument(
+        "--mlflow-experiment", type=str, default=None, help="MLflow experiment name"
+    )
+    parser.add_argument(
+        "--run-name", type=str, default="default", help="MLflow run name"
+    )
+
+    args = parser.parse_args()
+    main(
+        vocabulary_size=args.vocabulary_size,
+        mlflow_experiment=args.mlflow_experiment,
+        run_name=args.run_name,
+    )
