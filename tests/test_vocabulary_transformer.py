@@ -22,5 +22,5 @@ class TestVocabularyTransformer:
         assert isinstance(vocabulary, dict)
         assert (
             len(vocabulary) <= 3
-        )  # Vocabulary should not exceed requeste vocabulary size (top3)
+        )  # Vocabulary should not exceed requested vocabulary size (top3)
         assert vocabulary.get("movie") == 4  # "movie" appears in all 4 reviews
