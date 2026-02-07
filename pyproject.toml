@@ -17,6 +17,7 @@ dev = [
     "jupyter>=1.1.1",
     "nltk>=3.9.2",
     "pytest>=9.0.2",
+    "scikit-learn>=1.8.0",
 ]
 prod = [
     "nltk>=3.9.2",
