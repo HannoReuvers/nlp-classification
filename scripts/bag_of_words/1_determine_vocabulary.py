@@ -7,7 +7,7 @@ from modules.word_freq.VocabularyTransformer import VocabularyTransformer
 from utils.nlp_utils import files_in_directory
 
 
-def main(vocabulary_filename: str = "vocabulary.csv") -> None:
+def main(vocabulary_filename: str = "vocabulary.csv", vocabulary_size=1000) -> None:
     # Default output directory
     OUTPUT_DIR = "data/vocabularies"
 
@@ -18,7 +18,7 @@ def main(vocabulary_filename: str = "vocabulary.csv") -> None:
 
     # Create vocabulary
     stopwords = nltk.corpus.stopwords.words("english")
-    transformer = VocabularyTransformer(vocabulary_size=1000)
+    transformer = VocabularyTransformer(vocabulary_size=vocabulary_size)
     vocabulary = transformer.fit(training_reviews_path, stopwords=stopwords)
 
     # Output file
