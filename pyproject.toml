@@ -14,6 +14,8 @@ members = ["api"]
 [dependency-groups]
 dev = [
     "nltk>=3.9.2",
+    "numpy>=2.4.1",
+    "pandas>=3.0.0",
     "pytest>=9.0.2",
 ]
 prod = [

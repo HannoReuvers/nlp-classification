@@ -25,8 +25,8 @@ def split_data(
     """
 
     # Create output directories (if needed)
-    # Path(output_path+"/train/pos").mkdir(parents=True, exist_ok=True)
-    # Path(output_path+"/train/neg").mkdir(parents=True, exist_ok=True)
+    #Path(output_path+"/train/pos").mkdir(parents=True, exist_ok=True)
+    #Path(output_path+"/train/neg").mkdir(parents=True, exist_ok=True)
     Path(output_path + "/validation/pos").mkdir(parents=True, exist_ok=True)
     Path(output_path + "/validation/neg").mkdir(parents=True, exist_ok=True)
     Path(output_path + "/test/pos").mkdir(parents=True, exist_ok=True)
