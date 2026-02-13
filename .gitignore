@@ -1,5 +1,8 @@
-**/.DS_Store
+# Python
 **/__pycache__
+
+# OS generated files
+**/.DS_Store
 
 # Do not store data
 data/0_raw/*
