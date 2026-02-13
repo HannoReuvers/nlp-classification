@@ -9,7 +9,4 @@
 ```
 uv run scripts/0_split_test_data.py
 ```
-
-
-
-## 1. Bag-of-words (BoW) models
+All subsequent steps depend on your model choice. The table below offers a performance comparions. More extensive descriptions can be found in the wiki.
