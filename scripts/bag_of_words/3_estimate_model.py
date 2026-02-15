@@ -1,11 +1,16 @@
 import argparse
 import numpy as np
 import mlflow
+import os
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
 
 
 def main(vocabulary_size=1000, mlflow_experiment=None, run_name="default") -> None:
+    # Set MLflow tracking URI to the mlflow-runs folder
+    tracking_uri = os.path.abspath("mlflow-runs")
+    mlflow.set_tracking_uri(tracking_uri)
+
     # Set up MLflow experiment
     if mlflow_experiment:
         print(f"\nSetting up MLflow experiment: {mlflow_experiment}...")

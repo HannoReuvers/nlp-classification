@@ -12,5 +12,9 @@ data/1_data_split/*
 data/vocabularies/*
 !data/vocabularies/.gitkeep
 
+# Do not store mlflow runs
+mlflow-runs/*
+!mlflow-runs/.gitkeep
+
 # Exclude notebooks
 notebooks/*
