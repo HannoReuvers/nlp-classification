@@ -2,6 +2,7 @@ from collections import Counter
 import os
 
 import pandas as pd
+from pathlib import Path
 from tqdm import tqdm
 from modules.word_freq.ReviewLoader import ReviewLoader
 
@@ -10,7 +11,7 @@ class VocabularyTransformer:
     def __init__(self, vocabulary_size: int = 5000):
         self.vocabulary_size = vocabulary_size
 
-    def most_common_words(self, path_list: list, stopwords: list) -> dict:
+    def most_common_words(self, path_list: list[Path], stopwords: list) -> dict:
         """
         Fit the vocabulary transformer to the provided list of review file paths.
 
