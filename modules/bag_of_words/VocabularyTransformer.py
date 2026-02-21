@@ -1,4 +1,5 @@
 from collections import Counter
+from pathlib import Path
 
 import logging
 
@@ -120,3 +121,37 @@ class VocabularyTransformer:
         )
 
         return output_df
+
+    def store_vocabulary(self, vocabulary_path: Path, vocabulary: dict) -> dict:
+        """Read vocabulary from a CSV file and return it as a dictionary.
+
+        Expects a CSV file with 'word' and 'idx' columns where each row contains
+        a word and its corresponding index.
+
+        Parameters
+        ----------
+        vocabulary_path : str
+            Directory path containing the vocabulary file.
+        vocabulary_filename : str
+            Name of the vocabulary CSV file.
+
+        Returns
+        -------
+        dict
+            Dictionary mapping words (str) to their indices (int).
+        """
+
+        # Determine vocabulary size
+        vocabulary_size = len(vocabulary)
+
+        # Vocabulary file name
+        vocabulary_filename = f"vocabulary_top_{vocabulary_size}.csv"
+
+        # Store vocabulary as CSV file
+        vocabulary_df = pd.DataFrame(
+            {
+                "word": list(vocabulary.keys()),
+                "idx": list(vocabulary.values()),
+            }
+        )
+        vocabulary_df.to_csv(vocabulary_path / vocabulary_filename, index=False)

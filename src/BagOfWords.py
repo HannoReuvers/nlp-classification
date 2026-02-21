@@ -1,4 +1,8 @@
 import logging
+import nltk
+
+from modules.general.split_movie_reviews import SplitMovieReviews
+from modules.bag_of_words.VocabularyTransformer import VocabularyTransformer
 from modules.bag_of_words.BagOfWordsEstimator import BagOfWordsEstimator
 import pandas as pd
 from src.config import Config
@@ -17,7 +21,6 @@ def BagOfWordsModel():
     logger.info("BAG OF WORDS")
     logger.info("#" * 50)
 
-    """
     try:
         Config.check_directory_presence()
     except Exception as e:
@@ -36,11 +39,13 @@ def BagOfWordsModel():
     # STEP 2
     logger.info("STEP 2: Create vocabulary from training data")
     try:
-        vocab_transformer = VocabularyTransformer(vocabulary_size=Config.VOCABULARY_SIZE)
+        vocab_transformer = VocabularyTransformer(
+            vocabulary_size=Config.VOCABULARY_SIZE
+        )
         train_reviews = pd.read_csv(Config.DATA_SPLIT_DIR / "train_reviews.csv")
         stopwords = nltk.corpus.stopwords.words("english")
-        vocabulary = vocab_transformer.fit(train_reviews,
-                                           stopwords=stopwords)
+        vocabulary = vocab_transformer.fit(train_reviews, stopwords=stopwords)
+        vocab_transformer.store_vocabulary(Config.VOCAB_DIR, vocabulary)
         logger.info("STEP 2: DONE")
     except Exception as e:
         logger.error(f"Error while creating vocabulary: {e}")
@@ -62,7 +67,6 @@ def BagOfWordsModel():
     except Exception as e:
         logger.error(f"Error while tokenizing reviews: {e}")
         raise
-    """
 
     # STEP 4
     logger.info("STEP 4: Train and evaluate model")

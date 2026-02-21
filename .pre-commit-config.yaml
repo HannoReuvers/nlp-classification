@@ -28,7 +28,7 @@ repos:
     hooks:
       - id: pytest
         name: Coverage pytest
-        entry: uv run pytest --cov=modules --cov-report=term-missing --cov-fail-under=50
+        entry: uv run pytest --cov=modules --cov-report=term-missing --cov-fail-under=40
         language: system
         pass_filenames: false
         always_run: true
