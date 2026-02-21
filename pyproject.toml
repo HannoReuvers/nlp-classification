@@ -20,6 +20,7 @@ members = ["api"]
 [tool.coverage.run]
 omit = [
     "*/__init__.py",
+    "modules/general/*"
 ]
 
 [tool.coverage.report]
