@@ -7,6 +7,7 @@ class ReviewLoader:
     def __init__(self):
         self.review_content = None
         self.review_wordlist = None
+        self.word_counter = None
 
     def load_review(self, review_text: str) -> None:
         """

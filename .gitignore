@@ -22,3 +22,6 @@ mlflow-models/*
 
 # Exclude notebooks
 notebooks/*
+
+# Exclude coverage reports
+.coverage
