@@ -8,7 +8,7 @@ from src.config import Config
 
 def BagOfWordsModel():
     # Configure logging
-    logger = logging.getLogger(__name__)
+    logger = logging.getLogger("BagOfWords ")
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -16,7 +16,7 @@ def BagOfWordsModel():
     )
 
     logger.info("#" * 50)
-    logger.info("Starting Bag of Words model execution...")
+    logger.info("BAG OF WORDS")
     logger.info("#" * 50)
 
     try:
@@ -43,7 +43,8 @@ def BagOfWordsModel():
         vocabulary = vocab_transformer.fit(train_reviews, stopwords=stopwords)
         logger.info("STEP 2: DONE")
     except Exception as e:
-        raise Exception(f"An error occurred while creating vocabulary: {e}")
+        logger.error(f"Error while creating vocabulary: {e}")
+        raise
 
     # STEP 3
     logger.info("STEP 3: Tokenize reviews")
@@ -59,7 +60,8 @@ def BagOfWordsModel():
             )
         logger.info("STEP 3: DONE")
     except Exception as e:
-        raise Exception(f"An error occurred while tokenizing reviews: {e}")
+        logger.error(f"Error while tokenizing reviews: {e}")
+        raise
 
 
 if __name__ == "__main__":

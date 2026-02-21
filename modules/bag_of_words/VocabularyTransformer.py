@@ -1,8 +1,12 @@
 from collections import Counter
 
+import logging
+
 import pandas as pd
 from tqdm import tqdm
 from modules.bag_of_words.ReviewLoader import ReviewLoader
+
+logger = logging.getLogger("Transformer")
 
 
 class VocabularyTransformer:
@@ -83,6 +87,8 @@ class VocabularyTransformer:
         label_list = []
         review_id_list = []
         word_sequence_list = []
+
+        logger.info(f"Transforming {print_name} with {len(review_df)} reviews...")
 
         for _, row in tqdm(
             review_df.iterrows(),
