@@ -9,6 +9,7 @@ class Config:
     BASE_DIR: Final = Path(__file__).parent.parent
 
     # Destination folder for train, validation, and test data
+    INPUT_DATA_DIR: Final = BASE_DIR / "data/0_raw/aclImdb"
     DATA_SPLIT_DIR: Final = BASE_DIR / "data/1_data_split"
     DATA_MODEL_INPUT_DIR: Final = BASE_DIR / "data/2_model_input"
 
