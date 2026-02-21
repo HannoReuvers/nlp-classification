@@ -1,0 +1,66 @@
+import logging
+from modules.general.split_movie_reviews import SplitMovieReviews
+from modules.bag_of_words.VocabularyTransformer import VocabularyTransformer
+import pandas as pd
+import nltk
+from src.config import Config
+
+
+def BagOfWordsModel():
+    # Configure logging
+    logger = logging.getLogger(__name__)
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S",
+    )
+
+    logger.info("#" * 50)
+    logger.info("Starting Bag of Words model execution...")
+    logger.info("#" * 50)
+
+    try:
+        Config.check_directory_presence()
+    except Exception as e:
+        raise Exception(f"An error occurred while checking directories: {e}")
+
+    # STEP 1
+    logger.info("STEP 1: Split dataset into train, validation, and test data")
+    try:
+        splitter = SplitMovieReviews()
+        splitter.split_reviews()
+        logger.info("STEP 1: DONE")
+    except Exception as e:
+        logger.error(f"Error while splitting reviews: {e}")
+        raise
+
+    # STEP 2
+    logger.info("STEP 2: Create vocabulary from training data")
+    try:
+        vocab_transformer = VocabularyTransformer()
+        train_reviews = pd.read_csv(Config.DATA_SPLIT_DIR / "train_reviews.csv")
+        stopwords = nltk.corpus.stopwords.words("english")
+        vocabulary = vocab_transformer.fit(train_reviews, stopwords=stopwords)
+        logger.info("STEP 2: DONE")
+    except Exception as e:
+        raise Exception(f"An error occurred while creating vocabulary: {e}")
+
+    # STEP 3
+    logger.info("STEP 3: Tokenize reviews")
+    try:
+        for dataset in ["train", "validation", "test"]:
+            reviews_df = pd.read_csv(Config.DATA_SPLIT_DIR / f"{dataset}_reviews.csv")
+            tokenized_df = vocab_transformer.transform(
+                reviews_df, vocabulary, print_name=dataset
+            )
+            tokenized_df.to_csv(
+                Config.DATA_MODEL_INPUT_DIR / f"{dataset}_reviews_tokenized.csv",
+                index=False,
+            )
+        logger.info("STEP 3: DONE")
+    except Exception as e:
+        raise Exception(f"An error occurred while tokenizing reviews: {e}")
+
+
+if __name__ == "__main__":
+    BagOfWordsModel()

@@ -22,6 +22,8 @@ class Config:
             cls.DATA_MODEL_INPUT_DIR.exists()
         ), f"Directory {cls.DATA_MODEL_INPUT_DIR} does not exist"
 
+    VOCAB_DIR: Final = BASE_DIR / "data/vocabularies"
+
     """
     DATA_DIR: Final = "data"
     RAW_DATA_DIR: Final = f"{DATA_DIR}/0_raw_data"

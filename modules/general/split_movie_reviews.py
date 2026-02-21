@@ -1,4 +1,5 @@
 import csv
+from pathlib import Path
 from typing import Literal
 import random
 
@@ -21,13 +22,13 @@ class SplitMovieReviews:
 
                 # Include header if write mode is "w" (write), but not if "a" (append)
                 if write_mode == "w":
-                    writer.writerow(["label", "review_text"])
+                    writer.writerow(["label", "review_id", "review_text"])
 
                 # Write reviews to CSV ("w" for write, "a" for append)
                 for review_path in review_list:
                     with open(review_path, mode="r", encoding="utf-8") as review_file:
                         review_text = review_file.read()
-                        writer.writerow([label, review_text])
+                        writer.writerow([label, Path(review_path).name, review_text])
 
         # Configuration
         review_types = ["neg", "pos"]

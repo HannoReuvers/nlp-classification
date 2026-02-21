@@ -8,7 +8,7 @@ class ReviewLoader:
         self.review_content = None
         self.review_wordlist = None
 
-    def load_review(self, review_path: str) -> None:
+    def load_review(self, review_text: str) -> None:
         """
         Load a movie review from the file specified by review_path.
 
@@ -16,13 +16,9 @@ class ReviewLoader:
             review_path (str): Path to the movie review file.
         """
         try:
-            with open(review_path, "r") as file:
-                # Read review
-                text_review = file.read()
-            # Assign instance variables
-            self.review_content = text_review
+            self.review_content = review_text
         except IOError:
-            print(f"Unable to read file: {review_path}")
+            print(f"Unable to process review text: {review_text}")
 
     def review_to_word_list(self, stopwords: list) -> None:
         """

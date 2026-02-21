@@ -9,6 +9,8 @@ data/0_raw/*
 !data/0_raw/.gitkeep
 data/1_data_split/*
 !data/1_data_split/.gitkeep
+data/2_model_input/*
+!data/2_model_input/.gitkeep
 data/vocabularies/*
 !data/vocabularies/.gitkeep
 
