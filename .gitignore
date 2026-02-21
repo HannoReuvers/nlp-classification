@@ -17,6 +17,8 @@ data/vocabularies/*
 # Do not store mlflow runs
 mlflow-runs/*
 !mlflow-runs/.gitkeep
+mlflow-models/*
+!mlflow-models/.gitkeep
 
 # Exclude notebooks
 notebooks/*

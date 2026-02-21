@@ -10,7 +10,7 @@ logger = logging.getLogger("Transformer")
 
 
 class VocabularyTransformer:
-    def __init__(self, vocabulary_size: int = 5000):
+    def __init__(self, vocabulary_size: int):
         self.vocabulary_size = vocabulary_size
 
     def most_common_words(self, review_df: pd.DataFrame, stopwords: list) -> dict:

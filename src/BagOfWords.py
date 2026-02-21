@@ -1,8 +1,6 @@
 import logging
-from modules.general.split_movie_reviews import SplitMovieReviews
-from modules.bag_of_words.VocabularyTransformer import VocabularyTransformer
+from modules.bag_of_words.BagOfWordsEstimator import BagOfWordsEstimator
 import pandas as pd
-import nltk
 from src.config import Config
 
 
@@ -19,6 +17,7 @@ def BagOfWordsModel():
     logger.info("BAG OF WORDS")
     logger.info("#" * 50)
 
+    """
     try:
         Config.check_directory_presence()
     except Exception as e:
@@ -37,10 +36,11 @@ def BagOfWordsModel():
     # STEP 2
     logger.info("STEP 2: Create vocabulary from training data")
     try:
-        vocab_transformer = VocabularyTransformer()
+        vocab_transformer = VocabularyTransformer(vocabulary_size=Config.VOCABULARY_SIZE)
         train_reviews = pd.read_csv(Config.DATA_SPLIT_DIR / "train_reviews.csv")
         stopwords = nltk.corpus.stopwords.words("english")
-        vocabulary = vocab_transformer.fit(train_reviews, stopwords=stopwords)
+        vocabulary = vocab_transformer.fit(train_reviews,
+                                           stopwords=stopwords)
         logger.info("STEP 2: DONE")
     except Exception as e:
         logger.error(f"Error while creating vocabulary: {e}")
@@ -61,6 +61,34 @@ def BagOfWordsModel():
         logger.info("STEP 3: DONE")
     except Exception as e:
         logger.error(f"Error while tokenizing reviews: {e}")
+        raise
+    """
+
+    # STEP 4
+    logger.info("STEP 4: Train and evaluate model")
+    try:
+        train_df = pd.read_csv(
+            Config.DATA_MODEL_INPUT_DIR / "train_reviews_tokenized.csv"
+        )
+        validation_df = pd.read_csv(
+            Config.DATA_MODEL_INPUT_DIR / "validation_reviews_tokenized.csv"
+        )
+        test_df = pd.read_csv(
+            Config.DATA_MODEL_INPUT_DIR / "test_reviews_tokenized.csv"
+        )
+        BoW_model = BagOfWordsEstimator(
+            df_train=train_df,
+            df_validation=validation_df,
+            df_test=test_df,
+            mlflow_experiment="BagOfWords",
+            run_name="BoW_Run",
+            n_trials=10,
+            config=Config(),
+        )
+        BoW_model.estimate_BoW_model()
+        logger.info("STEP 4: DONE")
+    except Exception as e:
+        logger.error(f"Error while training and evaluating model: {e}")
         raise
 
 
