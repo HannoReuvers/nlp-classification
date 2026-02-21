@@ -1,3 +1,4 @@
+import pandas as pd
 import pytest
 
 
@@ -13,9 +14,7 @@ def single_sentence_review(tmp_path):
         Path: Path to the temporary review file.
     """
     review_content = "I have watched the movie."
-    review_file = tmp_path / "review_0.txt"
-    review_file.write_text(review_content)
-    return review_file
+    return review_content
 
 
 @pytest.fixture
@@ -30,16 +29,9 @@ def multiple_review_paths(tmp_path):
         List[Path]: List of paths to the temporary review files.
     """
     reviews = [
-        ("review_1.txt", "The movie was fantastic!"),
-        ("review_2.txt", "I absolutely loved the movie."),
-        ("review_3.txt", "The movie was terrible."),
-        ("review_4.txt", "I did not enjoy the movie at all."),
+        "The movie was fantastic!",
+        "I absolutely loved the movie.",
+        "The movie was terrible.",
+        "I did not enjoy the movie at all.",
     ]
-
-    file_paths = []
-    for file_name, content in reviews:
-        review_file = tmp_path / file_name
-        review_file.write_text(content)
-        file_paths.append(review_file)
-
-    return file_paths
+    return pd.DataFrame({"review_text": reviews})

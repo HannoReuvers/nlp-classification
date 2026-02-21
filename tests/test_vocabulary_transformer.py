@@ -1,4 +1,4 @@
-from modules.word_freq.VocabularyTransformer import VocabularyTransformer
+from modules.bag_of_words.VocabularyTransformer import VocabularyTransformer
 
 
 class TestVocabularyTransformer:
@@ -6,8 +6,8 @@ class TestVocabularyTransformer:
 
     def test_vocabulary_transformer_initialization(self):
         """Test that ReviewLoader initializes correctly."""
-        transformer = VocabularyTransformer()
-        assert transformer.vocabulary_size == 5000
+        transformer = VocabularyTransformer(vocabulary_size=123)
+        assert transformer.vocabulary_size == 123
 
     def test_fit_method(self, multiple_review_paths):
         """
@@ -16,6 +16,7 @@ class TestVocabularyTransformer:
         Args:
             multiple_review_paths: Fixture providing multiple mock review files.
         """
+
         transformer = VocabularyTransformer(vocabulary_size=3)
         vocabulary = transformer.most_common_words(multiple_review_paths, stopwords=[])
 

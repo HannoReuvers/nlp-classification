@@ -1,4 +1,4 @@
-from modules.word_freq.ReviewLoader import ReviewLoader
+from modules.bag_of_words.ReviewLoader import ReviewLoader
 
 
 class TestReviewLoader:
