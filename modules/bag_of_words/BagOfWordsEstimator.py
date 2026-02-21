@@ -87,7 +87,7 @@ class BagOfWordsEstimator:
 
         return X, y
 
-    def estimate_BoW_model(self):
+    def estimate_BoW_model(self):  # model: no cover
         # Set MLflow tracking URI to the mlflow-runs folder
         tracking_uri = self.config.MLFLOW_TRACKING_URI
         db_path = tracking_uri / "mlflow.db"

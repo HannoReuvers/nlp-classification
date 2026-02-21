@@ -17,6 +17,16 @@ dependencies = [
 [tool.uv.workspace]
 members = ["api"]
 
+[tool.coverage.run]
+omit = [
+    "*/__init__.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "model: no cover",
+]
+
 [dependency-groups]
 dev = [
     "jupyter>=1.1.1",
