@@ -19,5 +19,7 @@ repos:
       - id: ruff
         name: Ruff linter
         args: [--fix]
+        types: [python]
       - id: ruff-format
         name: Ruff formatter
+        types: [python]
