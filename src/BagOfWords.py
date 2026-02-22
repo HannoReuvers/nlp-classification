@@ -1,5 +1,6 @@
 import logging
 import nltk
+import warnings
 
 from modules.general.split_movie_reviews import SplitMovieReviews
 from modules.bag_of_words.VocabularyTransformer import VocabularyTransformer
@@ -16,6 +17,18 @@ def BagOfWordsModel():
         format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
         datefmt="%Y-%m-%d %H:%M:%S",
     )
+
+    # Suppress MLflow verbose output
+    logging.getLogger("mlflow").setLevel(logging.WARNING)
+    logging.getLogger("mlflow.tracking").setLevel(logging.WARNING)
+    logging.getLogger("mlflow.store").setLevel(logging.WARNING)
+    logging.getLogger("mlflow.models").setLevel(logging.WARNING)
+    logging.getLogger("mlflow.utils.environment").setLevel(logging.ERROR)
+    logging.getLogger("alembic").setLevel(logging.WARNING)
+    logging.getLogger("optuna").setLevel(logging.WARNING)
+
+    # Suppress scikit-learn FutureWarning about pickle format
+    warnings.filterwarnings("ignore", category=FutureWarning, message=".*pickle.*")
 
     logger.info("#" * 50)
     logger.info("BAG OF WORDS")

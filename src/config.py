@@ -1,7 +1,9 @@
 "Configuration module"
 
+import logging
 from pathlib import Path
 from typing import Final
+import warnings
 
 
 class Config:
@@ -19,6 +21,19 @@ class Config:
     # Bag of Words configuration
     VOCABULARY_SIZE: Final = 5000
     VOCAB_DIR: Final = BASE_DIR / "data/vocabularies"
+
+    # Logger configuration
+    # Suppress MLflow verbose output
+    logging.getLogger("mlflow").setLevel(logging.WARNING)
+    logging.getLogger("mlflow.tracking").setLevel(logging.WARNING)
+    logging.getLogger("mlflow.store").setLevel(logging.WARNING)
+    logging.getLogger("mlflow.models").setLevel(logging.WARNING)
+    logging.getLogger("mlflow.utils.environment").setLevel(logging.ERROR)
+    logging.getLogger("alembic").setLevel(logging.WARNING)
+    logging.getLogger("optuna").setLevel(logging.WARNING)
+
+    # Suppress scikit-learn FutureWarning about pickle format
+    warnings.filterwarnings("ignore", category=FutureWarning, message=".*pickle.*")
 
     @classmethod
     def check_directory_presence(cls) -> None:

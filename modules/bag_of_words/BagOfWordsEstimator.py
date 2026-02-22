@@ -105,7 +105,6 @@ class BagOfWordsEstimator:
 
         # Set up MLflow experiment with artifact location
         if self.mlflow_experiment:
-            print(f"\nSetting up MLflow experiment: {self.mlflow_experiment}...")
             experiment = mlflow.get_experiment_by_name(self.mlflow_experiment)
             if experiment is None:
                 experiment_id = mlflow.create_experiment(
@@ -115,7 +114,7 @@ class BagOfWordsEstimator:
                 experiment_id = experiment.experiment_id
             mlflow.set_experiment(experiment_id=experiment_id)
         else:
-            print("\nUsing default MLflow experiment...")
+            logger.info("\nUsing default MLflow experiment...")
             mlflow.set_experiment("Default")
 
         # Prepare X,y for training and validation
@@ -124,7 +123,7 @@ class BagOfWordsEstimator:
 
         # Hyperparameter optimization with Optuna
         def optuna_objective(trial):
-            C = trial.suggest_categorical("C", C_temp)
+            C = trial.suggest_categorical("C", C_values)
 
             # Train model with suggested hyperparameters
             model = LogisticRegression(
@@ -147,13 +146,9 @@ class BagOfWordsEstimator:
             return val_accuracy
 
         # Create Optuna study and optimize
-        # C_values = list(np.logspace(1, 2, num=10))
-        C_temp = np.logspace(-1, 1, num=10)
-        print(C_temp)
-        C_values = [1, 10]
-        print(C_values)
-        search_space = {"C": C_temp}
-        print(f"\nStarting Optuna optimization with {len(C_values)} trials...")
+        C_values = np.logspace(-1, 1, num=10)
+        search_space = {"C": C_values.tolist()}
+
         study = optuna.create_study(
             direction="maximize", sampler=optuna.samplers.GridSampler(search_space)
         )
@@ -161,7 +156,7 @@ class BagOfWordsEstimator:
         # Run MLflow study
         with mlflow.start_run(run_name=self.run_name):
             # Run Optuna hyperparameter search
-            study.optimize(optuna_objective, n_trials=len(C_temp))
+            study.optimize(optuna_objective, n_trials=len(C_values))
 
             # Extract trial results as DataFrame
             trials_df = study.trials_dataframe()
@@ -198,7 +193,6 @@ class BagOfWordsEstimator:
             # Save plot
             plot_path = f"mlflow-runs/optuna_output/{self.run_name}_C_vs_accuracy.png"
             plt.savefig(plot_path, dpi=150)
-            print(f"Saved visualization to: {plot_path}")
             plt.close()
 
             # Log artifacts to MLflow
@@ -206,8 +200,6 @@ class BagOfWordsEstimator:
 
             # Get best parameters
             best_params = study.best_params
-            print(f"\nBest parameters: {best_params}")
-            print(f"Best validation accuracy: {study.best_value:.4f}")
 
             # Train final model with best parameters
             best_model = LogisticRegression(
@@ -242,12 +234,12 @@ class BagOfWordsEstimator:
             mlflow.log_metric("train_accuracy", train_accuracy)
             mlflow.log_metric("validation_accuracy", val_accuracy)
 
-            print(f"Training accuracy: {train_accuracy:.4f}")
-            print(f"Validation accuracy: {val_accuracy:.4f}")
+            logger.info(f"Training accuracy: {train_accuracy:.4f}")
+            logger.info(f"Validation accuracy: {val_accuracy:.4f}")
 
             # Evaluate test data
             X_test, y_test = self.create_X_y(self.df_test)
             test_accuracy = best_model.score(X_test, y_test)
             mlflow.log_metric("test_accuracy", test_accuracy)
-            print(f"Test accuracy: {test_accuracy:.4f}")
-            print("Model trained successfully!")
+            logger.info(f"Test accuracy: {test_accuracy:.4f}")
+            logger.info("Model trained successfully!")

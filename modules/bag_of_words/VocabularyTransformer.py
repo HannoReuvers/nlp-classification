@@ -89,7 +89,7 @@ class VocabularyTransformer:
         review_id_list = []
         word_sequence_list = []
 
-        logger.info(f"Transforming {print_name} with {len(review_df)} reviews...")
+        logger.info(f"Transforming with {len(review_df)} reviews... ({print_name})")
 
         for _, row in tqdm(
             review_df.iterrows(),
