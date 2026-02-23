@@ -24,6 +24,18 @@ class TestReviewLoader:
         assert len(loader.review_content) > 0
         assert loader.review_content == "I have watched the movie."
 
+    def test_review_print(self):
+        """
+        Test that get_review_content returns the loaded review content.
+
+        Args:
+            single_sentence_review_file: Fixture providing mock review.
+        """
+        loader = ReviewLoader()
+        loader.load_review("abcdefg")
+
+        assert str(loader) == "REVIEW:\nabcdefg"
+
     def test_review_to_word_list(self, single_sentence_review):
         """
         Test that review_to_word_list creates a list of words from the review text, removing punctuation and stop words.
