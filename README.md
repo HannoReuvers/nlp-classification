@@ -1,7 +1,7 @@
 # NLP-Classification
 
 
-## Installation
+## 🚀 Installation
 1. Install the [uv Python package and project manager](https://docs.astral.sh/uv/)
 2. At the moment of writing, the raw data is freely available on https://ai.stanford.edu/~amaas/data/sentiment/. Extract the data into the `data/raw/` subdirectory
 
@@ -15,14 +15,16 @@ These models are registered locally in the SQLite database `mlflow.db`. You can 
 mlflow server --backend-store-uri sqlite:///mlflow-runs/mlflow.db --host 127.0.0.1 --port 5000
 ```
 
-## Performance
+## 📊 Performance
 The table below offers a performance overview. More extensive descriptions of the models can be found in the wiki.
 
 
-## API
-The results of the
+## 📡 API
+New reviews can be classified using an API endpoint. To run the server locally, use
 ```
 uv run --package api uvicorn  api.api_app:app
 ```
 
-The
+Once running, documentation is automatically available at:
+- Swagger UI: `http://127.0.0.1:8000/docs`
+- ReDoc: `http://127.0.0.1:8000/redoc`
