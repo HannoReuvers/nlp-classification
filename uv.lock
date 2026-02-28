@@ -61,6 +61,10 @@ wheels = [
 name = "api"
 version = "0.1.0"
 source = { virtual = "api" }
+dependencies = [
+    { name = "fastapi" },
+    { name = "uvicorn" },
+]
 
 [package.dev-dependencies]
 dev = [
@@ -68,6 +72,10 @@ dev = [
 ]
 
 [package.metadata]
+requires-dist = [
+    { name = "fastapi", specifier = ">=0.128.0" },
+    { name = "uvicorn", specifier = ">=0.40.0" },
+]
 
 [package.metadata.requires-dev]
 dev = [{ name = "fastapi", specifier = ">=0.128.0" }]

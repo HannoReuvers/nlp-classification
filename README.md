@@ -17,3 +17,12 @@ mlflow server --backend-store-uri sqlite:///mlflow-runs/mlflow.db --host 127.0.0
 
 ## Performance
 The table below offers a performance overview. More extensive descriptions of the models can be found in the wiki.
+
+
+## API
+The results of the
+```
+uv run --package api uvicorn  api.api_app:app
+```
+
+The
